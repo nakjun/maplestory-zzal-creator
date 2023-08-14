@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Res } from '@nestjs/common';
+import { Controller, Get, Query, Res, Logger } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response } from 'express'; // express에서 Response 타입을 임포트합니다.
 

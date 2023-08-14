@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 const axios = require('axios');
 const cheerio = require('cheerio');
 const mergeImages = require('merge-images');
@@ -9,6 +9,7 @@ import * as path from 'path';
 @Injectable()
 export class AppService {
   
+  private readonly logger = new Logger(AppService.name);
  
   getHello(): string {
     return 'nj';
@@ -19,6 +20,9 @@ export class AppService {
   }
 
   async getImage(id: string): Promise<Buffer> {
+    
+    
+    
     const currentDirectory = __dirname;
   
     const image1Path = path.join(currentDirectory, '..', 'resource', 'background.png');
@@ -33,7 +37,7 @@ export class AppService {
       const $ = cheerio.load(response.data);
       image2Path = $('img.character-image').first().attr('src');
     } catch (error) {
-      console.error('An error occurred:', error);
+      this.logger.error('An error occurred: ', error);      
       throw error; // 외부에서 적절하게 처리할 수 있도록 에러를 던져줍니다.
     }
   
@@ -62,7 +66,7 @@ export class AppService {
     const buffer = canvas.toBuffer('image/png');
   
     fs.writeFileSync('output.png', buffer);
-    console.log('Image saved as output.png');
+    this.logger.log(id+" create job success");
   
     return buffer;
   }
