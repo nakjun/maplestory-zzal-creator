@@ -63,9 +63,7 @@ export class AppService {
     ctx.fillStyle = 'black';
     ctx.fillText(id, 145, 370);
   
-    const buffer = canvas.toBuffer('image/png');
-  
-    fs.writeFileSync('output.png', buffer);
+    const buffer = canvas.toBuffer('image/png');  
     this.logger.log(id+" create job success");
   
     return buffer;
