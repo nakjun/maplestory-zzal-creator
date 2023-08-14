@@ -9,7 +9,7 @@ export class AppController {
   private readonly logger = new Logger(AppController.name);
 
   constructor(private readonly appService: AppService) {}
-
+asdasd
   @Get('init')
   getHello(): string {
     return this.appService.getHello();
@@ -23,6 +23,12 @@ export class AppController {
   @Get('getImage')
   async getImage(@Query('id') id: string, @Res() res: Response) {
     const buffer = await this.appService.getImage(id); // async/await를 사용하여 Promise를 처리    
+
+    if (!buffer || buffer.length === 0) {
+      // 버퍼가 비어있으면 경고 메시지 전송
+      return res.status(400).send({ alert: 'Buffer is empty. Image not found or an error occurred.' });
+    }
+
     const filename = id+"_짤_결과.png";
     const encodedFilename = encodeURI(filename);
     res.setHeader('Content-Type', 'image/png');
