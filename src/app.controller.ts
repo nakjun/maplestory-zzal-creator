@@ -38,6 +38,20 @@ asdasd
 
   @Get('sendEmail')
   async sendEmail(@Query('id') id:string, @Query('date') date:string, @Query('status') status:string){
+    
+    function decodeIfEncoded(value: string) {
+      // 이 정규식은 백분율 인코딩된 문자열을 확인합니다.
+      if (/^%[0-9a-fA-F]{2}/.test(value)) {
+        try {
+          return decodeURIComponent(value);
+        } catch (e) {
+          console.error('Invalid encoding:', value);
+          // 필요한 경우 여기에 추가 처리를 수행할 수 있습니다.
+        }
+      }
+      return value; // 인코딩되지 않은 경우 그대로 반환
+    }
+    
     const transporter = nodemailer.createTransport({      
       service: 'naver',
       host: 'smtp.naver.com', // 사용할 SMTP 서버
@@ -49,8 +63,8 @@ asdasd
         pass: 'as660225!!' // 비밀번호
       }
     });
-    const id_decode = id;
-    const status_decode = status;
+    const id_decode = decodeIfEncoded(id);
+    const status_decode = decodeIfEncoded(status);
     const title = "[시스템 알림] " + id_decode + " 변경이 있습니다";
     const text = date + " => " + status_decode;
 
