@@ -49,8 +49,8 @@ asdasd
         pass: 'as660225!!' // 비밀번호
       }
     });
-    const id_decode = decodeURIComponent(id);
-    const status_decode = decodeURIComponent(status);
+    const id_decode = id;
+    const status_decode = status;
     const title = "[시스템 알림] " + id_decode + " 변경이 있습니다";
     const text = date + " => " + status_decode;
 
